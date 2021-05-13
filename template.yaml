@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: Mailgun Webhook
+Resources:
+  WebhookEndpoint:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs14.x
+      CodeUri: build/
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaInvocation-DynamoDB
+        - AmazonDynamoDBFullAccess
+        - AmazonSNSFullAccess
+      Environment:
+        Variables:
+          SIGNING_KEY: MAILGUN_SIGNING_KEY
+          TABLE_NAME: TABLE_NAME
+          TOPIC_ARN: TOPIC_ARN
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: Post
+  Storage:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+  Notifier:
+    Type: AWS::SNS::Topic
