@@ -4,3 +4,4 @@ build/
 .aws-sam/
 /**/**.js
 samconfig.toml
+credentials
