@@ -4,8 +4,6 @@ import { Notification } from './helpers/sns';
 import { verify } from './utils';
 import { MailGunPostObject } from './interfaces';
 
-require('dotenv').config();
-
 const signingKey = process.env.SIGNING_KEY;
 const tableName = process.env.TABLE_NAME;
 const topicArn = process.env.TOPIC_ARN;
