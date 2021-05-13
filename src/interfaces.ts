@@ -23,3 +23,8 @@ export interface SNSMessageBody {
   timestamp: number;
   type: string;
 }
+
+export interface HandlerResponse {
+  statusCode: number;
+  body: string;
+}
